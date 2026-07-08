@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact — Canadian Builders</title>
+    <link rel="icon" type="image/png" href="images/icon-master.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Barlow:ital,wght@0,700;0,800;0,900;1,800&display=swap" rel="stylesheet" />
+
+  <style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --red:   #C0272D;
+    --white: #ffffff;
+    --dark:  #0d0d0d;
+    --nav-h: 68px;
+  }
+
+  html, body {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    font-family: 'Inter', sans-serif;
+    background: var(--dark);
+    color: var(--white);
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+  }
+  body::-webkit-scrollbar { display: none; }
+
+  /* ══ NAV ══ */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 200;
+    height: var(--nav-h);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 48px;
+    background: rgb(0, 0, 0);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    line-height: 1;
+    flex-shrink: 0;
+    z-index: 201;
+  }
+  .nav-logo img {
+    height: 38px;
+    width: auto;
+    display: block;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+    align-items: center;
+  }
+  .nav-links a {
+    font-size: 12px; font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.75);
+    text-decoration: none;
+    transition: color 0.2s;
+    position: relative;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    left: 0; bottom: -4px;
+    width: 0; height: 2px;
+    background: var(--red);
+    transition: width 0.3s ease;
+  }
+  .nav-links a:hover,
+  .nav-links a.active { color: var(--white); }
+  .nav-links a:hover::after,
+  .nav-links a.active::after { width: 100%; }
+
+  .nav-cta {
+    font-size: 12px; font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--white);
+    text-decoration: none;
+    border: 1px solid rgba(255,255,255,0.3);
+    padding: 8px 20px;
+    transition: background 0.2s, border-color 0.2s;
+    flex-shrink: 0;
+    white-space: nowrap;
+    background: var(--red);
+    border-color: var(--red);
+  }
+  .nav-cta:hover { background: #a01f24; border-color: #a01f24; }
+
+  /* ── HAMBURGER ── */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none; border: none;
+    cursor: pointer;
+    padding: 6px;
+    z-index: 201;
+  }
+  .hamburger span {
+    display: block;
+    width: 24px; height: 2px;
+    background: var(--white);
+    border-radius: 2px;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    transform-origin: center;
+  }
+  .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+  .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  /* ── MOBILE DRAWER ── */
+  .mobile-menu {
+    display: none;
+    position: fixed;
+    top: var(--nav-h);
+    left: 0; right: 0;
+    z-index: 199;
+    background: rgba(6,6,6,0.97);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    padding: 32px 28px 36px;
+    flex-direction: column;
+    transform: translateY(-8px);
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    pointer-events: none;
+  }
+  .mobile-menu.open {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: all;
+  }
+  .mobile-menu ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 28px;
+  }
+  .mobile-menu ul li { border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .mobile-menu ul li:first-child { border-top: 1px solid rgba(255,255,255,0.05); }
+  .mobile-menu ul a {
+    display: block;
+    padding: 16px 4px;
+    font-size: 13px; font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.70);
+    text-decoration: none;
+    transition: color 0.2s, padding-left 0.2s;
+  }
+  .mobile-menu ul a:hover { color: var(--white); padding-left: 10px; }
+  .mobile-menu .mobile-cta {
+    display: block;
+    text-align: center;
+    font-size: 12px; font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--white);
+    text-decoration: none;
+    border: 1px solid rgba(255,255,255,0.25);
+    padding: 14px 24px;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .mobile-menu .mobile-cta:hover { background: var(--red); border-color: var(--red); }
+
+  /* ══ PAGE HERO BANNER ══ */
+  .page-hero {
+    padding-top: var(--nav-h);
+    position: relative;
+    overflow: hidden;
+    background: #080808;
+    min-height: 280px;
+    display: flex;
+    align-items: flex-end;
+  }
+  .page-hero-bg {
+    position: absolute; inset: 0;
+    background-image: url('./images/image-1004-5.png.jpeg');
+    background-size: cover;
+    background-position: center;
+    pointer-events: none;
+  }
+  .page-hero-overlay {
+    position: absolute; inset: 0;
+    background: rgba(0,0,0,0.82);
+    pointer-events: none;
+  }
+  .page-hero-content {
+    position: relative;
+    z-index: 2;
+    padding: 56px 64px 60px;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+  }
+  .page-hero-content .section-label {
+    font-size: 11px; font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 16px;
+    display: block;
+  }
+  .page-hero-content h1 {
+    font-family: 'Barlow', sans-serif;
+    font-size: clamp(36px, 5vw, 68px);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    color: var(--white);
+    margin-bottom: 18px;
+  }
+  .page-hero-content p {
+    font-size: 15px;
+    color: rgba(255,255,255,0.60);
+    line-height: 1.75;
+    max-width: 560px;
+  }
+
+  /* ══ SHARED LAYOUT ══ */
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 64px;
+  }
+  .section-pad { padding-top: 110px; padding-bottom: 110px; }
+
+  .section-label {
+    font-size: 11px; font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 18px;
+    display: block;
+  }
+  .section-title {
+    font-family: 'Barlow', sans-serif;
+    font-size: clamp(32px, 4vw, 52px);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    color: var(--white);
+    margin-bottom: 20px;
+  }
+  .section-body {
+    font-size: 15px;
+    color: rgba(255,255,255,0.60);
+    line-height: 1.75;
+    max-width: 680px;
+    margin-bottom: 64px;
+  }
+
+  /* ══ LEADERSHIP SECTION ══ */
+  #leadership { background: #0a0a0a; }
+
+  .leader-grid {
+    display: flex;
+    justify-content: center;
+    gap: 2px;
+  }
+  .leader-grid .leader-card {
+    max-width: 380px;
+    width: 100%;
+  }
+
+  .leader-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.07);
+    padding: 40px 36px 44px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.35s, border-color 0.35s, transform 0.35s, box-shadow 0.35s;
+    cursor: default;
+  }
+
+  .leader-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: var(--red);
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .leader-card:hover {
+    background: rgba(255,255,255,0.06);
+    border-color: rgba(192,39,45,0.40);
+    transform: translateY(-6px);
+    box-shadow: 0 20px 48px rgba(0,0,0,0.5), 0 0 0 1px rgba(192,39,45,0.12);
+  }
+  .leader-card:hover::before { transform: scaleY(1); }
+
+  .leader-avatar {
+    width: 88px;
+    height: 88px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center top;
+    border: 2px solid rgba(192,39,45,0.45);
+    margin-bottom: 24px;
+    display: block;
+    transition: border-color 0.3s;
+  }
+  .leader-card:hover .leader-avatar { border-color: var(--red); }
+
+  .leader-title {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 12px;
+  }
+
+  .leader-card h3 {
+    font-family: 'Barlow', sans-serif;
+    font-size: 20px; font-weight: 800;
+    letter-spacing: 0.01em;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+
+  .leader-card .leader-dept {
+    font-size: 11px; font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.35);
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .leader-card p.leader-bio {
+    font-size: 14px;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.72;
+    flex: 1;
+  }
+
+  .leader-card .leader-email {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 24px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    color: var(--red);
+    text-decoration: none;
+    transition: color 0.2s;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    width: 100%;
+  }
+  .leader-card .leader-email:hover { color: var(--white); }
+  .leader-card .leader-email svg { flex-shrink: 0; }
+
+  /* ══ GET IN TOUCH SECTION ══ */
+  #contact { background: #080808; position: relative; overflow: hidden; }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+
+
+  .contact-channels {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-top: 48px;
+  }
+
+  .contact-channel {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.07);
+    padding: 28px 32px;
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    transition: background 0.3s, border-color 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .contact-channel::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--red);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.35s ease;
+  }
+  .contact-channel:hover { background: rgba(255,255,255,0.055); border-color: rgba(192,39,45,0.35); }
+  .contact-channel:hover::before { transform: scaleX(1); }
+
+  .channel-icon {
+    width: 44px; height: 44px;
+    background: rgba(192,39,45,0.12);
+    border: 1px solid rgba(192,39,45,0.25);
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 18px;
+  }
+
+  .channel-info h4 {
+    font-family: 'Barlow', sans-serif;
+    font-size: 15px; font-weight: 800;
+    letter-spacing: 0.04em;
+    color: var(--white);
+    margin-bottom: 4px;
+    text-transform: uppercase;
+  }
+  .channel-info p {
+    font-size: 13px;
+    color: rgba(255,255,255,0.50);
+    line-height: 1.6;
+    margin-bottom: 8px;
+  }
+  .channel-info a {
+    font-size: 13px; font-weight: 500;
+    color: var(--red);
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    transition: color 0.2s;
+  }
+  .channel-info a:hover { color: var(--white); }
+
+  /* Image mosaic */
+  .contact-right {
+    position: relative;
+    height: 480px;
+  }
+
+  .mosaic-img {
+    position: absolute;
+    object-fit: cover;
+    border: 2px solid rgba(255,255,255,0.06);
+  }
+  .mosaic-img:nth-child(1) {
+    width: 68%; height: 72%;
+    top: 0; right: 0;
+    z-index: 2;
+  }
+  .mosaic-img:nth-child(2) {
+    width: 54%; height: 56%;
+    bottom: 0; left: 0;
+    z-index: 3;
+    border-color: rgba(192,39,45,0.3);
+  }
+  /* Decorative triangle grid */
+  .contact-deco {
+    position: absolute;
+    top: 0; right: -60px; bottom: 0;
+    width: 200px;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.07;
+  }
+
+  /* ══ LOCATIONS SECTION ══ */
+  #locations { background: #0d0d0d; }
+
+  .locations-grid {
+    display: grid;
+    grid-template-columns: 400px 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .location-img-wrap {
+    position: relative;
+    overflow: hidden;
+    height: 480px;
+    flex-shrink: 0;
+  }
+  .location-img-wrap img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s ease;
+  }
+  .location-img-wrap:hover img { transform: scale(1.04); }
+
+
+
+  .location-tabs {
+    display: flex;
+    gap: 0;
+    margin-bottom: 40px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .loc-tab {
+    background: none; border: none;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px; font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.40);
+    padding: 12px 20px 14px;
+    position: relative;
+    transition: color 0.2s;
+  }
+  .loc-tab::after {
+    content: '';
+    position: absolute;
+    bottom: -1px; left: 0; right: 0;
+    height: 2px;
+    background: var(--red);
+    transform: scaleX(0);
+    transition: transform 0.25s ease;
+  }
+  .loc-tab:hover { color: rgba(255,255,255,0.75); }
+  .loc-tab.active { color: var(--white); }
+  .loc-tab.active::after { transform: scaleX(1); }
+  .loc-tab:first-child { padding-left: 0; }
+
+  .loc-panel { display: none; }
+  .loc-panel.active { display: block; }
+
+  .loc-city {
+    font-family: 'Barlow', sans-serif;
+    font-size: 28px; font-weight: 800;
+    color: var(--white);
+    margin-bottom: 16px;
+    letter-spacing: -0.01em;
+  }
+
+  .loc-address {
+    font-size: 14px;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.8;
+    margin-bottom: 24px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+  }
+
+  .loc-detail {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .loc-detail-icon {
+    width: 32px; height: 32px;
+    background: rgba(192,39,45,0.1);
+    border: 1px solid rgba(192,39,45,0.2);
+    border-radius: 2px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+  .loc-detail span {
+    font-size: 13px;
+    color: rgba(255,255,255,0.60);
+    line-height: 1.5;
+  }
+  .loc-detail a {
+    font-size: 13px;
+    color: rgba(255,255,255,0.60);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .loc-detail a:hover { color: var(--red); }
+
+  .loc-directions {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 28px;
+    font-size: 12px; font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--red);
+    text-decoration: none;
+    transition: gap 0.2s, color 0.2s;
+  }
+  .loc-directions:hover { gap: 16px; color: var(--white); }
+  .loc-directions svg { transition: transform 0.2s; }
+  .loc-directions:hover svg { transform: translateX(4px); }
+
+  /* ══ FOOTER ══ */
+  footer {
+    background: #050505;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding: 32px 64px;
+    text-align: center;
+  }
+  footer p {
+    font-size: 12px; font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.35);
+  }
+  footer span { color: var(--red); }
+
+  /* ══ RESPONSIVE ══ */
+  @media (max-width: 1100px) {
+    nav { padding: 0 32px; }
+    .nav-links { gap: 24px; }
+    .locations-grid { grid-template-columns: 320px 1fr; gap: 48px; }
+  }
+
+  @media (max-width: 860px) {
+    nav { padding: 0 24px; }
+    .nav-links, .nav-cta { display: none; }
+    .hamburger { display: flex; }
+    .mobile-menu { display: flex; }
+
+    .container { padding: 0 24px; }
+    .section-pad { padding-top: 80px; padding-bottom: 80px; }
+    .page-hero-content { padding: 48px 24px 52px; }
+
+    .leader-grid { gap: 2px; }
+
+    .contact-grid { grid-template-columns: 1fr; gap: 48px; }
+    .contact-right { height: 300px; }
+    .mosaic-img:nth-child(1) { width: 72%; height: 68%; }
+    .mosaic-img:nth-child(2) { width: 56%; height: 56%; }
+
+    .locations-grid { grid-template-columns: 1fr; gap: 40px; }
+    .location-img-wrap { height: 280px; }
+
+    footer { padding: 28px 24px; }
+  }
+
+  @media (max-width: 520px) {
+    .nav-logo img { height: 30px; }
+    nav { padding: 0 18px; }
+    .container { padding: 0 18px; }
+    .section-pad { padding-top: 64px; padding-bottom: 64px; }
+    .section-title { font-size: 26px; }
+    .section-body { font-size: 14px; margin-bottom: 40px; }
+
+    .page-hero-content { padding: 40px 18px 44px; }
+    .page-hero-content h1 { font-size: 32px; }
+
+    .leader-card { padding: 28px 22px 32px; }
+    .leader-card h3 { font-size: 18px; }
+
+    .contact-channel { padding: 22px 20px; }
+    .location-img-wrap { height: 220px; }
+    .loc-tab { font-size: 11px; padding: 10px 12px 12px; }
+    .loc-tabs-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  }
+
+  @media (max-width: 380px) {
+    .nav-logo img { height: 26px; }
+  }
+  </style>
+</head>
+<body>
+
+  <!-- ══ NAV ══ -->
+  <nav id="mainNav">
+    <a href="./hero-section.html" class="nav-logo"><img src="./images/navlogogad.jpeg" alt="Canadian Builders"></a>
+    <ul class="nav-links">
+      <li><a href="./hero-section.html#hero">Projects</a></li>
+      <li><a href="./hero-section.html#engineering">Engineering</a></li>
+      <li><a href="./hero-section.html#mep">Services</a></li>
+      <li><a href="./hero-section.html#safety">Safety</a></li>
+    </ul>
+    <a href="#contact" class="nav-cta">Get in Touch</a>
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- ══ MOBILE DRAWER ══ -->
+  <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+    <ul>
+      <li><a href="./hero-section.html#hero"        class="mobile-link">Projects</a></li>
+      <li><a href="./hero-section.html#engineering" class="mobile-link">Engineering</a></li>
+      <li><a href="./hero-section.html#mep"         class="mobile-link">Services</a></li>
+      <li><a href="./hero-section.html#safety"      class="mobile-link">Safety</a></li>
+      <li><a href="./hero-section.html#partnership" class="mobile-link">Partnership</a></li>
+      <li><a href="./contact.html"                  class="mobile-link active">Contact</a></li>
+    </ul>
+    <a href="#contact" class="mobile-cta mobile-link">Get in Touch</a>
+  </div>
+
+  <!-- ══ PAGE HERO BANNER ══ -->
+  <div class="page-hero">
+    <div class="page-hero-bg"></div>
+    <div class="page-hero-overlay"></div>
+    <div class="page-hero-content">
+      <span class="section-label">Reach Out</span>
+      <h1>Contact<br>Canadian Builders</h1>
+      <p>Whether you're a developer, investor, public agency, or partner — our team is ready to engage. Connect with the right people and let's build something lasting together.</p>
+    </div>
+  </div>
+
+  <!-- ══ LEADERSHIP ══ -->
+  <section id="leadership" class="section-pad">
+    <div class="container">
+      <span class="section-label">Executive Leadership</span>
+      <h2 class="section-title">Guiding Principles,<br>Proven Results</h2>
+      <p class="section-body">Canadian Builders is led by a team of seasoned executives with decades of combined experience across Canada's most complex construction programs. Our leadership brings strategic vision, operational discipline, and a client-first ethos to every relationship.</p>
+
+      <div class="leader-grid">
+
+        <!-- CEO -->
+        <div class="leader-card">
+          <img class="leader-avatar"
+          src="images/Ceo.png"
+            alt="Chief Executive Officer">
+          <p class="leader-title">Chief Executive Officer</p>
+          <h3>Gad Gad</h3>
+          <p class="leader-dept">Executive Leadership</p>
+          <p class="leader-bio">With over 20 years in construction leadership, our CEO drives the strategic direction of Canadian Builders, ensuring alignment between client objectives, operational excellence, and long-term growth.</p>
+          <a href="mailto:info@canadianbuildersco.com" class="leader-email">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            Ggad@canadianbuildersco.com
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ GET IN TOUCH ══ -->
+  <section id="contact" class="section-pad">
+    <div class="container">
+      <div class="contact-grid">
+
+        <div class="contact-left">
+          <span class="section-label">Contact Us</span>
+          <h2 class="section-title">Let's Get<br>in Touch</h2>
+          <p style="font-size:15px;color:rgba(255,255,255,0.58);line-height:1.75;max-width:460px;margin-bottom:0;">Email our respective teams and we will get back to you within one business day. For urgent matters, call us directly at <a href="tel:+966 56 691 2800" style="color:var(--red);text-decoration:none;">+966 56 691 2800</a>.</p>
+
+          <div class="contact-channels">
+
+            <div class="contact-channel">
+              <div class="channel-icon">✉️</div>
+              <div class="channel-info">
+                <h4>General Inquiries</h4>
+                <p>For project inquiries, information requests, and general correspondence.</p>
+                <a href="mailto:info@canadianbuildersco.com">info@canadianbuilders.com</a>
+              </div>
+            </div>
+
+            <div class="contact-channel">
+              <div class="channel-icon">🤝</div>
+              <div class="channel-info">
+                <h4>Business Development</h4>
+                <p>Developers, investors, and public agencies looking to partner.</p>
+                <a href="mailto:info@canadianbuildersco.com">business@canadianbuildersco.com</a>
+              </div>
+            </div>
+
+            <div class="contact-channel">
+              <div class="channel-icon">🛡️</div>
+              <div class="channel-info">
+                <h4>Safety &amp; Compliance</h4>
+                <p>COR certification inquiries, incident reporting, and regulatory matters.</p>
+                <a href="mailto:info@canadianbuildersco.com">safety@canadianbuildersco.com</a>
+              </div>
+            </div>
+
+            <div class="contact-channel">
+              <div class="channel-icon">👷</div>
+              <div class="channel-info">
+                <h4>Careers</h4>
+                <p>Join Canada's premier construction team. Trades, engineering, and management roles.</p>
+                <a href="mailto:info@canadianbuildersco.com">careers@canadianbuildersco.com</a>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="contact-right">
+          <!-- SVG decorative triangle grid like reference -->
+          <svg class="contact-deco" viewBox="0 0 200 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <polygon points="0,0 100,0 50,86.6" stroke="white" stroke-width="1" fill="none"/>
+            <polygon points="100,0 200,0 150,86.6" stroke="white" stroke-width="1" fill="none"/>
+            <polygon points="50,86.6 150,86.6 100,173.2" stroke="white" stroke-width="1" fill="none"/>
+            <polygon points="0,173.2 100,173.2 50,259.8" stroke="white" stroke-width="1" fill="none"/>
+            <polygon points="100,173.2 200,173.2 150,259.8" stroke="white" stroke-width="1" fill="none"/>
+            <polygon points="50,259.8 150,259.8 100,346.4" stroke="white" stroke-width="1" fill="none"/>
+            <polygon points="0,346.4 100,346.4 50,433" stroke="white" stroke-width="1" fill="none"/>
+            <polygon points="100,346.4 200,346.4 150,433" stroke="white" stroke-width="1" fill="none"/>
+            <polygon points="50,433 150,433 100,519.6" stroke="white" stroke-width="1" fill="none"/>
+          </svg>
+          <img class="mosaic-img" src="./images/image-1003-1.png" alt="Canadian Builders project" onerror="this.style.background='rgba(255,255,255,0.04)';this.removeAttribute('src')">
+          <img class="mosaic-img" src="./images/image-9-3.png" alt="Canadian Builders project" onerror="this.style.background='rgba(192,39,45,0.08)';this.removeAttribute('src')">
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ LOCATIONS ══ -->
+  <section id="locations" class="section-pad">
+    <div class="container">
+      <div class="locations-grid">
+
+        <div class="location-img-wrap">
+          <img src="./images/Map_pic.png" alt="Canadian Builders office" onerror="this.style.background='rgba(255,255,255,0.04)';this.removeAttribute('src')">
+        </div>
+
+        <div class="location-right">
+          <span class="section-label">Find Us In</span>
+          <h2 class="section-title">Locations</h2>
+
+          <div class="loc-tabs-scroll">
+            <div class="location-tabs" id="locTabs">
+              <button class="loc-tab active" data-loc="bc">Riyadh</button>
+              <button class="loc-tab" data-loc="ab">Cairo</button>
+              <button class="loc-tab" data-loc="qc">Québec</button>
+            </div>
+          </div>
+
+          <!-- BC -->
+          <div class="loc-panel active" id="loc-bc">
+            <p class="loc-city">Riyadh</p>
+            <p class="loc-address">1055 Altahlia Street, building 2400<br>Riyadh, Saudi Arabia</p>
+            <div class="loc-detail">
+              <div class="loc-detail-icon">📞</div>
+              <a href="tel:966112345678">Tel: +966 56 691 2800</a>
+            </div>
+
+            
+  
+            <div class="loc-detail">
+              <div class="loc-detail-icon">✉️</div>
+              <a href="mailto:info@canadianbuildersco.com">riyadh@canadianbuilders.com</a>
+            </div>
+
+            <div class="loc-detail">
+              <div class="loc-detail-icon">🕐</div>
+              <a href="tel:966112345678">Sun – Thu: 8:00 AM – 5:00 PM</a>
+            </div>
+            
+            <a href="https://maps.app.goo.gl/QYkbJ8migyUvLTr18" target="_blank" rel="noopener" class="loc-directions">
+              Get Directions
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12,5 19,12 12,19"/></svg>
+            </a>
+          </div>
+
+          <!-- Ca -->
+          <div class="loc-panel" id="loc-ab">
+            <p class="loc-city">Cairo</p>
+            <p class="loc-address">87 Building, Fifth Settlement, New Cairo<br>Cairo, Egypt</p>
+            <div class="loc-detail">
+              <div class="loc-detail-icon">📞</div>
+              <a href="tel:2023456789">Tel: +20 2 345 6789</a>
+            </div>
+            <div class="loc-detail">
+              <div class="loc-detail-icon">✉️</div>
+              <a href="mailto:info@canadianbuildersco.com">cairo@canadianbuilders.com</a>
+            </div>
+            <a href="https://maps.google.com" target="_blank" rel="noopener" class="loc-directions">
+              Get Directions
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12,5 19,12 12,19"/></svg>
+            </a>
+          </div>
+
+          <!-- QC -->
+          <div class="loc-panel" id="loc-qc">
+            <p class="loc-city">Montréal</p>
+            <p class="loc-address">1000 Rue De La Gauchetière W, Suite 2500<br>Montréal, QC  H3B 4W5, Canada</p>
+            <div class="loc-detail">
+              <div class="loc-detail-icon">📞</div>
+              <a href="tel:15143000000">Tel: +1 (514) 300-0000</a>
+            </div>
+            
+            <div class="loc-detail">
+              <div class="loc-detail-icon">✉️</div>
+              <a href="mailto:info@canadianbuildersco.com">montreal@canadianbuilders.com</a>
+            </div>
+            <a href="https://maps.google.com" target="_blank" rel="noopener" class="loc-directions">
+              Get Directions
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12,5 19,12 12,19"/></svg>
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ FOOTER ══ -->
+  <footer>
+    <p>&copy; 2025 <span>Canadian Builders</span> &nbsp;&middot;&nbsp; Building Tomorrow, Together &nbsp;&middot;&nbsp; All Rights Reserved</p>
+  </footer>
+
+  <!-- ══ SCRIPTS ══ -->
+  <script>
+    // Mobile menu
+    (() => {
+      const hamburger  = document.getElementById('hamburger');
+      const mobileMenu = document.getElementById('mobileMenu');
+      const mobileLinks = document.querySelectorAll('.mobile-link');
+
+      function openMenu() {
+        hamburger.classList.add('open');
+        hamburger.setAttribute('aria-expanded', 'true');
+        mobileMenu.classList.add('open');
+        mobileMenu.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+      }
+      function closeMenu() {
+        hamburger.classList.remove('open');
+        hamburger.setAttribute('aria-expanded', 'false');
+        mobileMenu.classList.remove('open');
+        mobileMenu.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+      }
+
+      hamburger.addEventListener('click', () => mobileMenu.classList.contains('open') ? closeMenu() : openMenu());
+      mobileLinks.forEach(l => l.addEventListener('click', closeMenu));
+      document.addEventListener('click', e => {
+        if (!mobileMenu.contains(e.target) && !hamburger.contains(e.target)) closeMenu();
+      });
+      window.addEventListener('resize', () => { if (window.innerWidth > 860) closeMenu(); });
+    })();
+
+    // Location tabs
+    (() => {
+      const tabs   = document.querySelectorAll('.loc-tab');
+      const panels = document.querySelectorAll('.loc-panel');
+
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          tabs.forEach(t => t.classList.remove('active'));
+          panels.forEach(p => p.classList.remove('active'));
+          tab.classList.add('active');
+          const panel = document.getElementById('loc-' + tab.dataset.loc);
+          if (panel) panel.classList.add('active');
+        });
+      });
+    })();
+  </script>
+
+</body>
+</html>
